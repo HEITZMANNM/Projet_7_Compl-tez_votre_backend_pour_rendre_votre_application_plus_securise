@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>Home</title>
+	<link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<h2>Update Bid</h2>
+	</div>
+
+	<div class="row">
+		<form action="#" th:action="@{/poseidon/bidList/update/{id}(id=${bidList.id})}" th:object="${bidList}" method="post" class="form-horizontal" style="width: 100%">
+			<div class="form-group">
+				<label for="account">Account</label>
+				<input  th:value="${bidList.account}"  id="account" class="form-control" type="text" name="account" placeholder="Account"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('account')}" th:errors="*{account}" >Account Error</span>
+			</div>
+			<div class="form-group">
+				<label for="type">Type</label>
+				<input  th:value="${bidList.type}" id="type" class="form-control" type="text" name="type" placeholder="Type"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}" >Type Error</span>
+			</div>
+			<div class="form-group">
+				<label for="bidQuantity">Bid Quantity</label>
+				<input  th:value="${bidList.bidQuantity}" id="bidQuantity" class="form-control" type="double" name="bidQuantity" placeholder="Bid Quantity"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('bidQuantity')}" th:errors="*{bidQuantity}" >Quantity Error</span>
+			</div>
+			<div class="form-group">
+				<div class="row justify-content-center">
+					<div class="col-sm-6 col<-sm-offset-3">
+						<button style="background color-blue" type="submit" class="btn btn-primary">
+							Update Bid List
+						</button>
+						<form th:action="@{/poseidon/bidList/list}" th:method="get">
+						<button class="btn btn-danger" type="submit" >
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+
+
+			<!--
+			TODO: Create a form to edit the values of Bid, there are 2 buttons: Update data and Cancel to the list Bid
+			 -->
+		</form>
+	</div>
+
+</div>
+</body>
+</html>
