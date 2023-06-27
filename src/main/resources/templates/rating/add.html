@@ -14,13 +14,49 @@
 	</div>
 
 	<div class="row">
-		<form action="#" th:action="@{/rating/validate}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
+		<form action="#" th:action="@{/poseidon/rating/validate}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
+
+			<div class="form-group" >
+				<label for="moodysRating">Moodys rating</label>
+				<input  th:field="${rating.moodysRating}"  id="moodysRating" class="form-control" type="text" name="moodysRating" placeholder="Moodys rating"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('moodysRating')}" th:errors="*{moodysRating}" >Moodys rating Error</span>
+			</div>
+			<div class="form-group" >
+				<label for="sandPRating">SandPRating</label>
+				<input  th:field="${rating.sandPRating}"  id="sandPRating" class="form-control" type="text" name="sandPRating" placeholder="SandPRating"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('sandPRating')}" th:errors="*{sandPRating}" >SandPRating Error</span>
+			</div>
+			<div class="form-group" >
+				<label for="fitchRating">Fitch rating</label>
+				<input  th:field="${rating.fitchRating}"  id="fitchRating" class="form-control" type="text" name="fitchRating" placeholder="Fitch rating"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('fitchRating')}" th:errors="*{fitchRating}" >Fitch rating Error</span>
+			</div>
+			<div class="form-group" >
+				<label for="orderNumber">Order</label>
+				<input  th:field="${rating.orderNumber}"  id="orderNumber" class="form-control" type="text" name="orderNumber" placeholder="Order"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('orderNumber')}" th:errors="*{orderNumber}" >Order Error</span>
+			</div>
+			<div class="form-group">
+				<div class="row justify-content-center">
+					<div class="col-sm-6 col<-sm-offset-3">
+						<button style="background color-blue" type="submit" class="btn btn-primary">
+							Add Rating
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form th:action="@{/poseidon/rating/list}" th:method="get">
+			<button class="btn btn-danger" type="submit" >
+				Cancel
+			</button>
+		</form>
+	</div>
+
+
 			<!--
 			TODO: Create a form to input the values of Rating, there are 2 buttons: Save data and Cancel to the list Rating
 			 -->
-
-		</form>
-	</div>
 
 </div>
 </body>

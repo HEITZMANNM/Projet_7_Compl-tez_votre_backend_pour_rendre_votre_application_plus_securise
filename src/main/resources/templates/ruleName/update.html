@@ -4,17 +4,63 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Home</title>
-	<link rel="stylesheet" href="../../css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/css/myStyle.css" type="text/css">
 </head>
 <body>
 <div class="container">
-
 	<div class="row">
 		<h2>Update New Rule</h2>
 	</div>
 
 	<div class="row">
-		<form action="#" th:action="@{/ruleName/update/{id}(id=${ruleName.id})}" th:object="${ruleName}" method="post" class="form-horizontal" style="width: 100%">
+		<form action="#" th:action="@{/poseidon/ruleName/update/{id}(id=${ruleName.id})}" th:object="${ruleName}" method="post" class="form-horizontal" style="width: 100%">
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input  th:value="${ruleName.name}" id="name" class="form-control" type="text" name="name" placeholder="Name"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Name Error</span>
+			</div>
+			<div class="form-group">
+				<label for="description">Description</label>
+				<input  th:value="${ruleName.description}" id="description" class="form-control" type="text" name="description" placeholder="Description"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" >Description Error</span>
+			</div>
+			<div class="form-group">
+				<label for="json">Json</label>
+				<input  th:value="${ruleName.json}" id="json" class="form-control" type="text" name="json" placeholder="Json"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('json')}" th:errors="*{json}" >Json Error</span>
+			</div>
+			<div class="form-group">
+				<label for="template">Template</label>
+				<input  th:value="${ruleName.template}" id="template" class="form-control" type="text" name="template" placeholder="Template"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('template')}" th:errors="*{template}" >Template Error</span>
+			</div>
+			<div class="form-group">
+				<label for="sql">Sql</label>
+				<input  th:value="${ruleName.sql}" id="sql" class="form-control" type="text" name="sql" placeholder="Sql"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('sql')}" th:errors="*{sql}" >Sql Error</span>
+			</div>
+			<div class="form-group">
+				<label for="sqlPart">SqlPart</label>
+				<input  th:value="${ruleName.sqlPart}" id="sqlPart" class="form-control" type="text" name="sqlPart" placeholder="SqlPart"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('sqlPart')}" th:errors="*{sqlPart}" >SqlPart Error</span>
+			</div>
+			<div class="form-group">
+				<div class="row justify-content-center">
+					<div class="col-sm-6 col<-sm-offset-3">
+						<button style="background color-blue" type="submit" class="btn btn-primary">
+							Update Bid List
+						</button>
+						<form th:action="@{/poseidon/ruleName/list}" th:method="get">
+							<button class="btn btn-danger" type="submit" >
+								Cancel
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
 			<!--
 			TODO: Create a form to edit the values of RuleName, there are 2 buttons: Update data and Cancel to the RuleName
 			 -->

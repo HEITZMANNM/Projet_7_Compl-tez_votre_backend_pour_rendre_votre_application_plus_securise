@@ -1,6 +1,8 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.service.TradeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,20 +12,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
+@RequestMapping("/poseidon")
 public class TradeController {
+
+    @Autowired
+    private TradeService tradeService;
     // TODO: Inject Trade service
 
     @RequestMapping("/trade/list")
     public String home(Model model)
     {
-        // TODO: find all Trade, add to model
+        List<Trade> listOfAllTrade = tradeService.findAll();
+        model.addAttribute("listOfAllTrade", listOfAllTrade);
+
         return "trade/list";
     }
 
     @GetMapping("/trade/add")
-    public String addUser(Trade bid) {
+    public String addUser(Trade bid, Model model) {
+
+        Trade trade = new Trade();
+        model.addAttribute("trade", trade);
+
         return "trade/add";
     }
 

@@ -4,6 +4,8 @@ import lombok.Data;
 import javax.persistence.Id;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.sql.Timestamp;
 
 @Data
@@ -17,14 +19,17 @@ public class Trade {
     @Column(name="TradeId")
     private int tradeId;
 
-
     @Column(name = "account")
+    @NotBlank(message = "Account is mandatory")
     private String account;
 
     @Column(name = "type")
+    @NotBlank(message = "Type is mandatory")
     private String type;
 
     @Column(name = "buyQuantity")
+    @NotBlank(message = "Buy Quantity is mandatory")
+    @Positive(message = "Buy Quantity must be positive")
     private double buyQuantity;
 
     @Column(name = "sellQuantity")
@@ -78,6 +83,6 @@ public class Trade {
     @Column(name = "side")
     private String side;
 
-    public Trade(String tradeAccount, String type) {
-    }
+//    public Trade(String tradeAccount, String type) {
+//    }
 }

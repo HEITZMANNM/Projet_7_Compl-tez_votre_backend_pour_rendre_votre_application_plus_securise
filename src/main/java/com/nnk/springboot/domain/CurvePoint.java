@@ -4,11 +4,12 @@ import lombok.Data;
 import javax.persistence.Id;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Data
 @Entity
-@Table(name = "curvepoint")
+@Table(name = "CurvePoint")
 public class CurvePoint {
     // TODO: Map columns in data table CURVEPOINT with corresponding java fields
 
@@ -17,6 +18,7 @@ public class CurvePoint {
     @Column(name="Id")
     private int id;
 
+    @NotNull(message = "Bid Quantity is mandatory")
     @Column(name = "CurveId")
     private int curveId;
 
@@ -32,6 +34,6 @@ public class CurvePoint {
     @Column(name  ="creationDate")
     private Timestamp creationDate;
 
-    public CurvePoint(int i, double v, double v1) {
-    }
+//    public CurvePoint(int i, double v, double v1) {
+//    }
 }

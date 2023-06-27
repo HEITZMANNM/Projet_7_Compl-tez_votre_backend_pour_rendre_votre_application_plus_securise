@@ -38,12 +38,7 @@ public class BidTests {
         Assert.assertEquals(bid.getBidQuantity(), 20d, 20d);
 
         // Find
-        Iterable<BidList> listResult = bidListRepository.findAll();
-        List<BidList> list = new ArrayList<>();
-        for(BidList bidList: listResult)
-        {
-            list.add(bidList);
-        }
+        List<BidList> list = bidListRepository.findAll();
         Assert.assertTrue(list.size() > 0);
 
         // Delete

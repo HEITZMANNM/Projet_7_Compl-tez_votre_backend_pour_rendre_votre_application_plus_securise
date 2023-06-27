@@ -12,6 +12,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception
     {
+
         http.authorizeRequests().antMatchers(
                         "/poseidon/")
                 .permitAll()
@@ -21,4 +22,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/poseidon/login");
 
     }
+
+
 }

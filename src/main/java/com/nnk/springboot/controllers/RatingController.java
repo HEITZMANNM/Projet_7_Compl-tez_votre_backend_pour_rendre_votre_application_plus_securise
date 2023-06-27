@@ -1,54 +1,88 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.Rating;
+import com.nnk.springboot.service.RatingService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
+@RequestMapping("/poseidon")
 public class RatingController {
-    // TODO: Inject Rating service
+
+    private static final Logger logger = LogManager.getLogger("RatingController");
+
+    @Autowired
+    private RatingService ratingService;
+
 
     @RequestMapping("/rating/list")
     public String home(Model model)
     {
-        // TODO: find all Rating, add to model
+        List<Rating> listOfRatings = ratingService.findAll();
+        model.addAttribute("listOfRatings", listOfRatings);
         return "rating/list";
     }
 
     @GetMapping("/rating/add")
-    public String addRatingForm(Rating rating) {
+    public String addRatingForm(Model model) {
+
+        Rating rating = new Rating();
+        model.addAttribute("rating", rating);
         return "rating/add";
     }
 
     @PostMapping("/rating/validate")
-    public String validate(@Valid Rating rating, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Rating list
-        return "rating/add";
+    public String validate(@Valid  @ModelAttribute("rating") Rating rating, BindingResult result, Model model) {
+
+        if (!result.hasErrors())
+        {
+            ratingService.saveRating(rating);
+            return "redirect:/poseidon/rating/list";
+        }
+        else
+        {
+            logger.error("errors = " + result.getAllErrors());
+            return "rating/add";
+        }
     }
 
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Rating by Id and to model then show to the form
+
+        Rating rating = ratingService.findById(id);
+        model.addAttribute("rating", rating);
         return "rating/update";
     }
 
     @PostMapping("/rating/update/{id}")
-    public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
+    public String updateRating(@PathVariable("id") Integer id, @Valid @ModelAttribute("rating") Rating rating,
                                BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Rating and return Rating list
-        return "redirect:/rating/list";
+        if (!result.hasErrors())
+        {
+            ratingService.update(rating);
+            return "redirect:/poseidon/rating/list";
+        }
+        else
+        {
+            logger.error("errors = " + result.getAllErrors());
+            return "rating/update";
+        }
     }
 
-    @GetMapping("/rating/delete/{id}")
-    public String deleteRating(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Rating by Id and delete the Rating, return to Rating list
-        return "redirect:/rating/list";
+    @RequestMapping("/rating/delete/{id}")
+    public String deleteRating(@PathVariable("id") Integer id) {
+
+        ratingService.deleteById(id);
+
+        return "redirect:/poseidon/rating/list";
     }
 }

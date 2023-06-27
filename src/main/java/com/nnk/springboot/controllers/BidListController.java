@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/poseidon")
 public class BidListController {
-    // TODO: Inject Bid service
+
     @Autowired
     private BidListServiceImpl bidListServiceImpl;
 

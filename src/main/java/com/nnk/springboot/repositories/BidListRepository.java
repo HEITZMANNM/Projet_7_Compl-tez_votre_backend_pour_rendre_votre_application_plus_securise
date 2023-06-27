@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BidListRepository extends CrudRepository<BidList, Integer> {
+public interface BidListRepository extends JpaRepository<BidList, Integer> {
 
-    public Iterable<BidList> findAll();
+    public List<BidList> findAll();
 
     public BidList save(BidList bidList);
     public BidList findById(int id);

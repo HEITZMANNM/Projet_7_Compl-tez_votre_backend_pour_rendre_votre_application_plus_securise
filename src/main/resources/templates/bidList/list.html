@@ -43,7 +43,7 @@
 				<td th:text="${bid.id}"></td>
 				<td th:text="${bid.account}"></td>
 				<td th:text="${bid.type}"></td>
-				<td th:double="${bid.bidQuantity}"></td>
+				<td th:text="${bid.bidQuantity}"></td>
 				<td>
 					<div class="btn-group">
 						<form th:action="@{/poseidon/bidList/update/{id}(id=${bid.id})}" th:method="get">
@@ -55,7 +55,6 @@
 					</div>
 				</td>
 			</tr>
-				<!-- TODO: Show all Bids to the table, the Action column will have Edit & Delete buttons -->
 			</tbody>
 		</table>
 	</div>

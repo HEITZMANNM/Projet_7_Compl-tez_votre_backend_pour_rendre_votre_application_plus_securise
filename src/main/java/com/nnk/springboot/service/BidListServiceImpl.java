@@ -23,11 +23,8 @@ public class BidListServiceImpl implements BidListService{
     {
         List<BidList> listOfAllBids = new ArrayList<>();
         try {
-            Iterable<BidList> iterable = bidListRepository.findAll();
-            for(BidList bid : iterable)
-            {
-                listOfAllBids.add(bid);
-            }
+            listOfAllBids = bidListRepository.findAll();
+
             logger.debug("The Bids were find");
         }
         catch(Exception ex){

@@ -4,7 +4,8 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Home</title>
-	<link rel="stylesheet" href="../../css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="/css/myStyle.css" type="text/css">
 </head>
 <body>
 <div class="container">
@@ -14,7 +15,45 @@
 	</div>
 
 	<div class="row">
-		<form action="#" th:action="@{/rating/update/{id}(id=${rating.id})}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
+		<form action="#" th:action="@{/poseidon/rating/update/{id}(id=${rating.id})}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
+			<div class="form-group">
+				<label for="moodysRating">Moodys rating</label>
+				<input  th:value="${rating.moodysRating}" id="moodysRating" class="form-control" type="double" name="moodysRating" placeholder="Moodys Rating"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('moodysRating')}" th:errors="*{moodysRating}" >Moodys Rating Error</span>
+			</div>
+			<div class="form-group">
+				<label for="sandPRating">SandPRating</label>
+				<input  th:value="${rating.sandPRating}" id="sandPRating" class="form-control" type="double" name="sandPRating" placeholder="SandPRating"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('sandPRating')}" th:errors="*{sandPRating}" >SandP Rating Error</span>
+			</div>
+			<div class="form-group">
+				<label for="fitchRating">Fitch Rating</label>
+				<input  th:value="${rating.fitchRating}" id="fitchRating" class="form-control" type="double" name="fitchRating" placeholder="Fitch Rating"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('fitchRating')}" th:errors="*{fitchRating}" >Fitch Rating Error</span>
+			</div>
+			<div class="form-group">
+				<label for="orderNumber">Order</label>
+				<input  th:value="${rating.orderNumber}" id="orderNumber" class="form-control" type="double" name="orderNumber" placeholder="Order"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('orderNumber')}" th:errors="*{orderNumber}" >Order Error</span>
+			</div>
+
+			<div class="form-group">
+				<div class="row justify-content-center">
+					<div class="col-sm-6 col<-sm-offset-3">
+						<button style="background color-blue" type="submit" class="btn btn-primary">
+							Update Bid List
+						</button>
+						<form th:action="@{/poseidon/rating/list}" th:method="get">
+							<button class="btn btn-danger" type="submit" >
+								Cancel
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
 			<!--
 			TODO: Create a form to edit the values of Rating, there are 2 buttons: Update data and Cancel to the Rating
 			 -->
