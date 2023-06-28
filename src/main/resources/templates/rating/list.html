@@ -5,16 +5,17 @@
 <meta charset="utf-8"/>
 <title>Home</title>
 <link rel="stylesheet" href="../../css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/css/myStyle.css" type="text/css">
 </head>
 <body>
 <div class="container">
 	<div class="row">
 		<div class="col-6">
-			<a href="poseidon/bidList/list">Bid List</a>&nbsp;|&nbsp;
-			<a href="poseidon/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-			<a href="poseidon/rating/list">Ratings</a>&nbsp;|&nbsp;
-			<a href="poseidon/trade/list">Trade</a>&nbsp;|&nbsp;
-			<a href="poseidon/ruleName/list">Rule</a>
+			<a href="/poseidon/bidList/list">Bid List</a>&nbsp;|&nbsp;
+			<a href="/poseidon/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
+			<a href="/poseidon/rating/list">Ratings</a>&nbsp;|&nbsp;
+			<a href="/poseidon/trade/list">Trade</a>&nbsp;|&nbsp;
+			<a href="/poseidon/ruleName/list">Rule</a>
 		</div>
 		<div class="col-6 text-right">
 			Logged in user: <b th:inline="text"  class="user"> [[${#httpServletRequest.remoteUser}]] </b>
@@ -55,10 +56,14 @@
 					</div>
 				</td>
 			</tr>
-			<!-- TODO: Show all Rating to the table, the Action column will have Edit & Delete buttons -->
 			</tbody>
 		</table>
 	</div>
 </div>
+<footer class="container-fluid bg-grey py-5">
+	<div class="logo">
+		<img src="/../../logoPoseidon.png" class="w-50 logo-footer" title="Poseidon Inc.">
+	</div>
+</footer>
 </body>
 </html>

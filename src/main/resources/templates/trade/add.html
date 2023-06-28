@@ -5,6 +5,7 @@
 <meta charset="utf-8"/>
 <title>Home</title>
 <link rel="stylesheet" href="../../css/bootstrap.min.css" >
+	<link rel="stylesheet" href="/css/myStyle.css" type="text/css">
 </head>
 <body>
 <div class="container">
@@ -12,16 +13,46 @@
 	<div class="row">
 		<h2>Add New Trade</h2>
 	</div>
-
 	<div class="row">
-		<form action="#" th:action="@{/trade/validate}" th:object="${trade}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to input the values of Trade, there are 2 buttons: Save data and Cancel to the list Trade
-			 -->
+		<form action="#" th:action="@{/poseidon/trade/validate}" th:object="${trade}" method="post" class="form-horizontal" style="width: 100%">
 
+			<div class="form-group">
+				<label for="account">Account</label>
+				<input  th:field="${trade.account}" id="account" class="form-control" type="text" name="account" placeholder="Account"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('account')}" th:errors="*{account}" >Account Error</span>
+			</div>
+			<div class="form-group">
+				<label for="type">Type</label>
+				<input  th:field="${trade.type}" id="type" class="form-control" type="text" name="type" placeholder="Type"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}" >Type Error</span>
+			</div>
+			<div class="form-group">
+				<label for="buyQuantity">Buy Quantity</label>
+				<input  th:field="${trade.buyQuantity}" id="buyQuantity" class="form-control" type="text" name="buyQuantity" placeholder="Buy Quantity"/>
+				<span class="text-danger" th:if="${#fields.hasErrors('buyQuantity')}" th:errors="*{buyQuantity}" >Buy Quantity Error</span>
+			</div>
+
+			<div class="form-group">
+				<div class="row justify-content-center">
+					<div class="col-sm-6 col<-sm-offset-3">
+						<button style="background color-blue" type="submit" class="btn btn-primary">
+							Add Bid List
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form th:action="@{/poseidon/trade/list}" th:method="get">
+			<button class="btn btn-danger" type="submit" >
+				Cancel
+			</button>
 		</form>
 	</div>
-
 </div>
+<footer class="container-fluid bg-grey py-5">
+	<div class="logo">
+		<img src="/../../logoPoseidon.png" class="w-50 logo-footer" title="Poseidon Inc.">
+	</div>
+</footer>
 </body>
 </html>

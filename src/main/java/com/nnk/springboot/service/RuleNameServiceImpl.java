@@ -93,7 +93,7 @@ public class RuleNameServiceImpl implements  RuleNameService{
         try
         {
            ruleNameRepository.deleteById(id);
-            logger.debug("The ruleName was delete");
+            logger.debug("The ruleName was deleted");
         }
         catch(Exception ex){
             logger.error("Error deleting ruleName", ex);

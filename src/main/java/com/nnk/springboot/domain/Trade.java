@@ -5,6 +5,7 @@ import javax.persistence.Id;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.sql.Timestamp;
 
@@ -17,7 +18,7 @@ public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="TradeId")
-    private int tradeId;
+    private int id;
 
     @Column(name = "account")
     @NotBlank(message = "Account is mandatory")
@@ -28,7 +29,7 @@ public class Trade {
     private String type;
 
     @Column(name = "buyQuantity")
-    @NotBlank(message = "Buy Quantity is mandatory")
+    @NotNull(message = "Buy Quantity is mandatory")
     @Positive(message = "Buy Quantity must be positive")
     private double buyQuantity;
 
