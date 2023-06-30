@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
-@Table(name = "rulename")
+@Table(name = "Rulename")
 public class RuleName {
     // TODO: Map columns in data table RULENAME with corresponding java fields
 

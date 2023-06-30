@@ -1,6 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.service.BidListService;
 import com.nnk.springboot.service.BidListServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,14 +19,14 @@ import java.util.List;
 public class BidListController {
 
     @Autowired
-    private BidListServiceImpl bidListServiceImpl;
+    private BidListService bidListService;
 
     private static final Logger logger = LogManager.getLogger("BidListController");
 
     @RequestMapping("/bidList/list")
     public String home(Model model)
     {
-        List<BidList> listOfAllBids = bidListServiceImpl.getAllBids();
+        List<BidList> listOfAllBids = bidListService.getAllBids();
         model.addAttribute("listOfAllBids", listOfAllBids);
 
         return "bidList/list";
@@ -44,7 +45,7 @@ public class BidListController {
 
         if (!result.hasErrors())
         {
-            bidListServiceImpl.saveBid(bid);
+            bidListService.saveBid(bid);
             return "redirect:/poseidon/bidList/list";
         }
         else
@@ -59,7 +60,7 @@ public class BidListController {
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        BidList bid = bidListServiceImpl.getBidById(id);
+        BidList bid = bidListService.getBidById(id);
         model.addAttribute("bidList", bid);
 
         return "bidList/update";
@@ -72,7 +73,7 @@ public class BidListController {
 
         if (!result.hasErrors())
         {
-            bidListServiceImpl.update(bidList);
+            bidListService.update(bidList);
             return "redirect:/poseidon/bidList/list";
         }
         else
@@ -85,7 +86,7 @@ public class BidListController {
     @RequestMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") int id) {
 
-        bidListServiceImpl.deleteById(id);
+        bidListService.deleteById(id);
 
         return "redirect:/poseidon/bidList/list";
     }

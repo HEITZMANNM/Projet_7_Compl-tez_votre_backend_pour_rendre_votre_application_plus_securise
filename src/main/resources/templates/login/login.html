@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+  <link rel="stylesheet" href="/../../css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/myStyle.css" type="text/css">
+</head>
+<body>
+
+<div class = "container">
+  <div class="row">
+    <h1>Login</h1>
+  </div>
+</div>
+<div class ="container">
+  <form th:action="@{/poseidon/login}" method="post">
+
+
+    <!-- error message for login -->
+
+    <div th:if="${param.error}">
+      <div class="alert alert-danger">Username or Password is wrong !
+      </div>
+    </div>
+
+
+
+  <div class="form-group">
+    <label for="username"> Username </label> :
+    <input type="text" class="form-control" id="username" name="username" required
+           placeholder="Enter User Name" autofocus="autofocus">
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>:
+    <input type="password" id="password" name="password" class="form-control" required
+           placeholder="Enter Password"/>
+  </div>
+
+    <div class="form-group">
+      <div class="row justify-content-center">
+        <div class="col-sm-6 col<-sm-offset-3">
+          <button style="background color-blue" type="submit" class="btn btn-primary">
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<footer class="container-fluid bg-grey py-5">
+  <div class="logo">
+    <img src="/../../logoPoseidon.png" class="w-50 logo-footer" title="Poseidon Inc.">
+  </div>
+</footer>
+</body>
+</html>

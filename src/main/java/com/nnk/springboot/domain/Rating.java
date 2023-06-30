@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-@Table(name = "rating")
+@Table(name = "Rating")
 public class Rating {
     // TODO: Map columns in data table RATING with corresponding java fields
 
