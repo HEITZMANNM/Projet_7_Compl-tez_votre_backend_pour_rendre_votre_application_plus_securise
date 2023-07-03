@@ -87,6 +87,6 @@ public class CurveController {
 
         curvePointService.deleteById(id);
 
-        return "redirect:/curvePoint/list";
+        return "redirect:/poseidon/curvePoint/list";
     }
 }

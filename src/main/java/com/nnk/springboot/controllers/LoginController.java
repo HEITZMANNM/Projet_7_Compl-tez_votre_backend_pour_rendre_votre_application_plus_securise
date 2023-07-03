@@ -19,12 +19,6 @@ public class LoginController {
         return "login/login";
     }
 
-//    @GetMapping("login")
-//    public ModelAndView login() {
-//        ModelAndView mav = new ModelAndView();
-//        mav.setViewName("login");
-//        return mav;
-//    }
 
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {

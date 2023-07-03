@@ -77,7 +77,7 @@ public class TradeController {
         else
         {
             logger.error("errors = " + result.getAllErrors());
-            return "trade/upDate";
+            return "trade/update";
         }
     }
 

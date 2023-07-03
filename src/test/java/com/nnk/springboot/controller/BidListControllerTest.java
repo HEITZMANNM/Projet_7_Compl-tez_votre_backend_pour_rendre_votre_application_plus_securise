@@ -192,16 +192,35 @@ public class BidListControllerTest {
     public void shouldUpdateBid() throws Exception {
 
         BidList bidList = new BidList();
-        bidList.setAccount("Account");
+        bidList.setAccount("AccountController test");
         bidList.setBidQuantity(10.0);
         bidList.setType("Type");
 
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/bidList/update/{id}", 1)
+        bidListService.saveBid(bidList);
+
+        bidList.setAccount("AccountUpdated");
+
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/bidList/update/{id}", 1, bidList)
                         .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("bidList/update"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("bidList"));
+
+        BidList bidExpected = new BidList();
+
+        List<BidList> list = bidListService.getAllBids();
+
+        for(BidList bid : list)
+        {
+            if(bid.getAccount().equals("AccountController test"))
+            {
+                bidExpected = bid;
+            }
+        }
+        int bidExpectedID = bidExpected.getId();
+
+        bidListService.deleteById(bidExpectedID);
     }
 
     @Test
