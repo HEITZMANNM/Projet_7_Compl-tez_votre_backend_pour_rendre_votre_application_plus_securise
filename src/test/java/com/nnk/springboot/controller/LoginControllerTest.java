@@ -34,7 +34,7 @@ public class LoginControllerTest {
     @WithMockUser(username = "user1", password = "pwd", roles = "USER")
     public void shouldReturnUserListView() throws Exception {
 
-        this.mvc.perform(MockMvcRequestBuilders.get("/secure/article-details"))
+        this.mvc.perform(MockMvcRequestBuilders.get("/poseidon/secure/article-details"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("users"));
     }
