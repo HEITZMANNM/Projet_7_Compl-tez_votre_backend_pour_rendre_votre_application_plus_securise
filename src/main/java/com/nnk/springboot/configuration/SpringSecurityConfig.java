@@ -3,7 +3,6 @@ package com.nnk.springboot.configuration;
 import com.nnk.springboot.service.security.AuthenticationService;
 
 import com.nnk.springboot.service.security.MyAuthenticationSuccessHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,9 +25,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Autowired
-//    private AuthenticationService authenticationService;
-
 
     @Bean
     public  AuthenticationService authentication() {
@@ -50,18 +46,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception
     {
-
-//        http.authorizeRequests().antMatchers(
-//                        "/js/**",
-//                        "/css/**",
-//                        "/img/**",
-//                        "/poseidon/")
-//                .permitAll()
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/poseidon/login");
-
         String[] staticResources  =  {
                 "/css/**",
                 "/images/**",
@@ -72,15 +56,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         };
 
         http.authorizeRequests().antMatchers(staticResources).permitAll()
-//                .antMatchers("/poseidon/user/add").hasAuthority("ROLE_ADMIN")
-//                .antMatchers("/poseidon/user/list").hasAuthority("ROLE_ADMIN")
-//                .antMatchers("/poseidon/user/update").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/poseidon/user/add").hasRole("ADMIN")
-                .antMatchers("/poseidon/user/list").hasRole("ADMIN")
                 .antMatchers("/poseidon/user/update").hasRole("ADMIN")
-//                .antMatchers("/poseidon/user/add").hasAnyRole("ADMIN")
-//                .antMatchers("/poseidon/user/list").hasAnyRole("ADMIN")
-//                .antMatchers("/poseidon/user/update").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -96,6 +73,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
     }
-
 
 }

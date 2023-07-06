@@ -3,7 +3,6 @@ package com.nnk.springboot.domain;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
-//import org.springframework.data.annotation.Id;
 import javax.persistence.Id;
 
 import javax.persistence.*;
@@ -18,7 +17,6 @@ import java.sql.Timestamp;
 @DynamicUpdate
 @Table(name = "BidList")
 public class BidList {
-    // TODO: Map columns in data table BIDLIST with corresponding java fields
 
 
     @Id
@@ -89,28 +87,5 @@ public class BidList {
 
     @Column(name = "side")
     private String side;
-
-
-
-//    public BidList(String accountTest, String typeTest, double v) {
-//    }
-//
-//    public BidList() {
-//
-//    }
-
-
-//    public double getBidQuantity() {
-//        return bidQuantity;
-//    }
-//
-//    public int getd() {
-//        return id;
-//    }
-//
-//    public void setBidQuantity(double bidQuantity) {
-//        this.bidQuantity = bidQuantity;
-//    }
-
 
 }

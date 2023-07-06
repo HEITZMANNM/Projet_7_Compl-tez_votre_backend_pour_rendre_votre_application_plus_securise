@@ -1,8 +1,6 @@
 package com.nnk.springboot.controller;
 
-import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.service.CurvePointService;
 import com.nnk.springboot.service.RatingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,19 +61,15 @@ public class RatingControllerTest {
     @Test
     public void shouldValidateForm() throws Exception {
 
-        Rating rating = new Rating();
-        rating.setMoodysRating("MoodyControllerTest");
-        rating.setFitchRating("FitchControllerTest");
-        rating.setSandPRating("SendPRatingControllerTest");
-        rating.setOrderNumber(10);
-
-
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/rating/validate", rating)
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/rating/validate")
+                        .param("moodysRating", "MoodyControllerTest")
+                        .param("fitchRating", "FitchControllerTest")
+                        .param("sandPRating", "SendPRatingControllerTest")
+                        .param("orderNumber", "10")
                         .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("rating/add"));
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/rating/list"));
 
         Rating ratingExpected = new Rating();
 
@@ -138,12 +132,6 @@ public class RatingControllerTest {
 
         ratingService.saveRating(rating);
 
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/rating/update/{id}", 1)
-                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("rating/update"));
-
         Rating ratingExpected = new Rating();
 
         List<Rating> list = ratingService.findAll();
@@ -156,6 +144,16 @@ public class RatingControllerTest {
             }
         }
         int ratingID = ratingExpected.getId();
+
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/rating/update/{id}", ratingID)
+                        .param("moodysRating", "MoodyControllerTest")
+                        .param("fitchRating", "FitchControllerTest")
+                        .param("sandPRating", "SendPRatingControllerTest")
+                        .param("orderNumber", "22")
+                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/rating/list"));
 
         ratingService.deleteById(ratingID);
     }

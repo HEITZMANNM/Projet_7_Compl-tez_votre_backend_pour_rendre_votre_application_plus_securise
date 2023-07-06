@@ -2,23 +2,23 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
-import com.nnk.springboot.service.security.AuthenticationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Collection;
 
 @Controller
 @RequestMapping("/poseidon")
@@ -34,6 +34,16 @@ public class UserController {
     public String home( Model model)
     {
         model.addAttribute("users", userRepository.findAll());
+
+        Collection<GrantedAuthority> grantedAuthorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        for(GrantedAuthority grantedAuthority : grantedAuthorities)
+        {
+            if("ROLE_USER".equals(grantedAuthority.getAuthority()))
+            {
+                return "redirect:/poseidon/bidList/list";
+            }
+        }
 
         return "user/list";
     }

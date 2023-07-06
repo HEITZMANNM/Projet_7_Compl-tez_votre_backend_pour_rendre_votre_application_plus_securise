@@ -1,9 +1,7 @@
 package com.nnk.springboot.controller;
 
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.service.RuleNameService;
 import com.nnk.springboot.service.TradeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,11 +66,14 @@ public class TradeControllerTest {
         tradeTest.setAccount("accountControllerTest");
         tradeTest.setBuyQuantity(10);
 
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/trade/validate", tradeTest)
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/trade/validate")
+                        .param("type", "typeControllerTest")
+                        .param("account", "accountControllerTest")
+                        .param("buyQuantity", "10")
                         .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("trade/add"));
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/trade/list"));
 
         Trade tradeExpected = new Trade();
 
@@ -148,10 +149,13 @@ public class TradeControllerTest {
 
 
         this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/trade/update/{id}", tradeID)
+                        .param("type", "typeControllerTest")
+                        .param("account", "accountControllerTest")
+                        .param("buyQuantity", "22")
                         .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("trade/update"));
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/trade/list"));
 
 
         tradeService.deleteById(tradeID);

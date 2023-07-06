@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Rating")
 public class Rating {
-    // TODO: Map columns in data table RATING with corresponding java fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +34,4 @@ public class Rating {
     @NotNull(message = "Order must be positive")
     private int orderNumber;
 
-//    public Rating(String moodysRating, String sandPRating, String fitchRating, int i) {
-//    }
 }

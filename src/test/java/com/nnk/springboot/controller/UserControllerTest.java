@@ -1,11 +1,7 @@
 package com.nnk.springboot.controller;
 
-import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
-import com.nnk.springboot.service.TradeService;
-import com.nnk.springboot.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,19 +60,15 @@ public class UserControllerTest {
     @Test
     public void shouldValidateForm() throws Exception {
 
-      User userTest = new User();
-      userTest.setFullname("fullNameControllerTest");
-      userTest.setPassword("passwordControllerTest");
-      userTest.setRole("USER");
-      userTest.setUsername("userNameControllerTest");
-
-
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/user/validate", userTest)
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/user/validate")
+                        .param("fullname", "fullNameControllerTest")
+                        .param("password", "passwordControllerTest2!")
+                        .param("role", "USER")
+                        .param("username", "userNameControllerTest")
                         .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("ADMIN"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("user/add"));
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/user/list"));
 
         User userExpected = new User();
 
@@ -94,107 +86,108 @@ public class UserControllerTest {
         userRepository.deleteById(userId);
     }
 
-//    @Test
-//    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
-//    public void shouldShowUpdateForm() throws Exception {
-//
-//        User userTest = new User();
-//        userTest.setFullname("fullNameControllerTest");
-//        userTest.setPassword("passwordControllerTest");
-//        userTest.setRole("USER");
-//        userTest.setUsername("userNameControllerTest");
-//
-//
-//        userRepository.save(userTest);
-//
-//        User userExpected = new User();
-//
-//        List<User> list = userRepository.findAll();
-//
-//        for(User user : list)
-//        {
-//            if(user.getFullname().equals("fullNameControllerTest"))
-//            {
-//                userExpected = user;
-//            }
-//        }
-//        int userId = userExpected.getId();
-//
-//        this.mvc.perform(MockMvcRequestBuilders.get("/poseidon/user/update/{id}", userId))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.view().name("user/update"))
-//                .andExpect(MockMvcResultMatchers.model().attributeExists("user"));
-//
-//        userRepository.deleteById(userId);
-//    }
+    @Test
+    @WithMockUser(username = "user1", password = "pwd", roles = "ADMIN")
+    public void shouldShowUpdateForm() throws Exception {
 
-//    @Test
-//    public void shouldUpdateTrade() throws Exception {
-//
-//        User userTest = new User();
-//        userTest.setFullname("fullNameControllerTest");
-//        userTest.setPassword("passwordControllerTest");
-//        userTest.setRole("USER");
-//        userTest.setUsername("userNameControllerTest");
-//
-//        userRepository.save(userTest);
-//
-//        User userExpected = new User();
-//
-//        List<User> list = userRepository.findAll();
-//
-//        for(User user : list)
-//        {
-//            if(user.getFullname().equals("fullNameControllerTest"))
-//            {
-//                userExpected = user;
-//            }
-//        }
-//        int userId = userExpected.getId();
-//
-//
-//        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/user/update/{id}", userId)
-//                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
-//                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.view().name("user/update"));
-//
-//
-//        userRepository.deleteById(userId);
-//    }
+        User user = new User();
+        user.setUsername("userNameControllerTest");
+        user.setPassword("passwordControllerTest2!");
+        user.setRole("USER");
+        user.setFullname("fullNameControllerTest");
+
+        userRepository.save(user);
+
+        User userExpected = new User();
+
+        List<User> list = userRepository.findAll();
+
+        for(User userFind : list)
+        {
+            if("fullNameControllerTest".equals(userFind.getFullname()))
+            {
+                userExpected = userFind;
+            }
+        }
+        int userId = userExpected.getId();
+
+        this.mvc.perform(MockMvcRequestBuilders.get("/poseidon/user/update/{id}", userId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("user/update"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("user"));
+
+        userRepository.deleteById(userId);
+    }
+
+    @Test
+    public void shouldUpdateUser() throws Exception {
+
+        User user = new User();
+        user.setUsername("userNameControllerTest");
+        user.setPassword("passwordControllerTest2!");
+        user.setRole("USER");
+        user.setFullname("fullNameControllerTest");
+
+        userRepository.save(user);
+
+        User userExpected = new User();
+
+        List<User> list = userRepository.findAll();
+
+        for(User userFind : list)
+        {
+            if("fullNameControllerTest".equals(userFind.getFullname()))
+            {
+                userExpected = userFind;
+            }
+        }
+        int userId = userExpected.getId();
 
 
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/user/update/{id}", userId)
+                        .param("fullname", "fullNameControllerUpdated")
+                        .param("password", "passwordControllerTest2!")
+                        .param("role", "USER")
+                        .param("username", "userNameControllerTest")
+                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/user/list"));
 
-//    @Test
-//    public void shouldDeleteCurve() throws Exception {
-//
-//
-//        User userTest = new User();
-//        userTest.setFullname("fullNameControllerTest");
-//        userTest.setPassword("passwordControllerTest");
-//        userTest.setRole("USER");
-//        userTest.setUsername("userNameControllerTest");
-//
-//        userRepository.save(userTest);
-//
-//        User userExpected = new User();
-//
-//        List<User> list = userRepository.findAll();
-//
-//        for(User user : list)
-//        {
-//            if(user.getFullname().equals("fullNameControllerTest"))
-//            {
-//                userExpected = user;
-//            }
-//        }
-//        int userId = userExpected.getId();
-//
-//        this.mvc.perform(MockMvcRequestBuilders.get("/poseidon/user/delete/{id}", userId)
-//                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
-//                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-//                .andExpect(MockMvcResultMatchers.status().isFound())
-//                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/user/list"));
-//    }
+        userRepository.deleteById(userId);
+    }
+
+    @Test
+    public void shouldDeleteUser() throws Exception {
+
+
+        User user = new User();
+        user.setUsername("userNameControllerTest");
+        user.setPassword("passwordControllerTest2!");
+        user.setRole("USER");
+        user.setFullname("fullNameControllerTest");
+
+        userRepository.save(user);
+
+        User userExpected = new User();
+
+        List<User> list = userRepository.findAll();
+
+        for(User userFind : list)
+        {
+            if("fullNameControllerTest".equals(userFind.getFullname()))
+            {
+                userExpected = userFind;
+            }
+        }
+        int userId = userExpected.getId();
+
+        this.mvc.perform(MockMvcRequestBuilders.get("/poseidon/user/delete/{id}", userId)
+                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("ADMIN"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/user/list"));
+    }
+
 
 }

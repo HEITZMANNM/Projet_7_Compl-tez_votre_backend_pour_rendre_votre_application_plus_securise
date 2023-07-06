@@ -1,18 +1,11 @@
 package com.nnk.springboot.domain;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.annotation.security.RolesAllowed;
-import javax.management.relation.Role;
 import javax.persistence.Id;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.Objects;
 
 @Data

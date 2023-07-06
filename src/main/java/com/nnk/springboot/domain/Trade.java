@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "Trade")
 public class Trade {
-    // TODO: Map columns in data table TRADE with corresponding java fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,6 +83,4 @@ public class Trade {
     @Column(name = "side")
     private String side;
 
-//    public Trade(String tradeAccount, String type) {
-//    }
 }

@@ -2,7 +2,6 @@ package com.nnk.springboot.controller;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.service.CurvePointService;
 import com.nnk.springboot.service.RuleNameService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,19 +63,17 @@ public class RuleNameControllerTest {
     @Test
     public void shouldValidateForm() throws Exception {
 
-        RuleName ruleName = new RuleName();
-        ruleName.setSqlPart("SQLPartControllerTest");
-        ruleName.setName("NameControllertest");
-        ruleName.setSql("SQLControllerTest");
-        ruleName.setJson("JsonControllerTest");
-        ruleName.setTemplate("TemplateControllerTest");
-        ruleName.setDescription("DescriptionControllertest");
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/ruleName/validate", ruleName)
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/ruleName/validate")
+                        .param("sqlPart", "SQLPartControllerTest")
+                        .param("name", "NameControllertest")
+                        .param("sql", "SQLControllerTest")
+                        .param("json", "JsonControllerTest")
+                        .param("template", "TemplateControllerTest")
+                        .param("description", "DescriptionControllertest")
                         .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("ruleName/add"));
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/ruleName/list"));
 
         RuleName ruleNameExpected = new RuleName();
 
@@ -143,13 +140,6 @@ public class RuleNameControllerTest {
 
         ruleNameService.save(ruleName);
 
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/ruleName/update/{id}", 1)
-                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("ruleName/update"));
-
         RuleName ruleNameExpected = new RuleName();
 
         List<RuleName> list = ruleNameService.findAll();
@@ -162,6 +152,19 @@ public class RuleNameControllerTest {
             }
         }
         int ruleNameID = ruleNameExpected.getId();
+
+
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/ruleName/update/{id}", ruleNameID)
+                        .param("sqlPart", "SQLPartControllerTest")
+                        .param("name", "NameControllertest")
+                        .param("sql", "SQLControllerTest")
+                        .param("json", "JsonControllerTest")
+                        .param("template", "TemplateControllerTest")
+                        .param("description", "DescriptionControllertestUpdated")
+                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/ruleName/list"));
 
         ruleNameService.deleteById(ruleNameID);
     }

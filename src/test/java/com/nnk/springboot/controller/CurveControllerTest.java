@@ -1,8 +1,6 @@
 package com.nnk.springboot.controller;
 
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.service.BidListService;
 import com.nnk.springboot.service.CurvePointService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,13 +61,10 @@ public class CurveControllerTest {
     @Test
     public void shouldValidateForm() throws Exception {
 
-        CurvePoint curvePoint = new CurvePoint();
-        curvePoint.setTerm(11.0);
-        curvePoint.setCurveId(0);
-        curvePoint.setValue(11);
-
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/curvePoint/validate", curvePoint)
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/curvePoint/validate")
+                        .param("term", "11.0")
+                        .param("curveId", "0")
+                        .param("value", "11")
                         .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isFound())
@@ -99,7 +94,6 @@ public class CurveControllerTest {
         curvePoint.setTerm(0.0);
         curvePoint.setCurveId(0);
         curvePoint.setValue(11);
-
 
         curvePointService.saveCurvePoint(curvePoint);
 
@@ -134,12 +128,6 @@ public class CurveControllerTest {
 
         curvePointService.saveCurvePoint(curvePoint);
 
-        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/curvePoint/update/{id}", 1)
-                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isFound())
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/curvePoint/list"));
-
         CurvePoint curvePointExpected = new CurvePoint();
 
         List<CurvePoint> list = curvePointService.getAllCurvePoints();
@@ -152,6 +140,15 @@ public class CurveControllerTest {
             }
         }
         int curveExpectedID = curvePointExpected.getId();
+
+        this.mvc.perform(MockMvcRequestBuilders.post("/poseidon/curvePoint/update/{id}", curveExpectedID)
+                        .param("term", "0.0")
+                        .param("curveId", "0")
+                        .param("value", "22")
+                        .with(SecurityMockMvcRequestPostProcessors.user("user1").roles("USER"))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/poseidon/curvePoint/list"));
 
         curvePointService.deleteById(curveExpectedID);
     }
