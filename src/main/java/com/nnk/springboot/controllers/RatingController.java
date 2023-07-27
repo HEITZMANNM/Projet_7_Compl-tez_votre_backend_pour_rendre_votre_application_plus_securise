@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.service.RatingService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/poseidon")
 public class RatingController {
 
-    private static final Logger logger = LogManager.getLogger("RatingController");
 
     @Autowired
     private RatingService ratingService;
@@ -28,6 +29,7 @@ public class RatingController {
     {
         List<Rating> listOfRatings = ratingService.findAll();
         model.addAttribute("listOfRatings", listOfRatings);
+        log.info("Access to page list of rating was done");
         return "rating/list";
     }
 
@@ -36,6 +38,9 @@ public class RatingController {
 
         Rating rating = new Rating();
         model.addAttribute("rating", rating);
+
+
+        log.info("Acces to page to add new rating was done");
         return "rating/add";
     }
 
@@ -45,11 +50,12 @@ public class RatingController {
         if (!result.hasErrors())
         {
             ratingService.saveRating(rating);
+            log.info("The new rating was validated and saved");
             return "redirect:/poseidon/rating/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "rating/add";
         }
     }
@@ -59,6 +65,7 @@ public class RatingController {
 
         Rating rating = ratingService.findById(id);
         model.addAttribute("rating", rating);
+        log.info("The selected rating was find and access to the page for update rating was done");
         return "rating/update";
     }
 
@@ -68,11 +75,12 @@ public class RatingController {
         if (!result.hasErrors())
         {
             ratingService.update(rating);
+            log.info("The new rating was validated and updated");
             return "redirect:/poseidon/rating/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "rating/update";
         }
     }
@@ -81,6 +89,7 @@ public class RatingController {
     public String deleteRating(@PathVariable("id") Integer id) {
 
         ratingService.deleteById(id);
+        log.info("The selected rating was deleted");
 
         return "redirect:/poseidon/rating/list";
     }

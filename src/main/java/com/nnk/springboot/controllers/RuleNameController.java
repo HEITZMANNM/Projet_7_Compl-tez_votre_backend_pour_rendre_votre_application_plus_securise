@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.service.RuleNameService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/poseidon")
 public class RuleNameController {
 
-    private static final Logger logger = LogManager.getLogger("RuleNameController");
 
     @Autowired
     private RuleNameService ruleNameService;
@@ -28,6 +29,7 @@ public class RuleNameController {
     {
         List<RuleName> listOfAllRuleName = ruleNameService.findAll();
         model.addAttribute("listOfAllRuleName", listOfAllRuleName);
+        log.info("Access to page list of ruleName was done");
 
         return "ruleName/list";
     }
@@ -37,6 +39,7 @@ public class RuleNameController {
     {
         RuleName ruleName = new RuleName();
         model.addAttribute("ruleName", ruleName);
+        log.info("Acces to page to add new ruleName was done");
 
         return "ruleName/add";
     }
@@ -47,11 +50,12 @@ public class RuleNameController {
         if (!result.hasErrors())
         {
             ruleNameService.save(ruleName);
+            log.info("The new ruleName was validated and saved");
             return "redirect:/poseidon/ruleName/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "ruleName/add";
         }
     }
@@ -61,6 +65,7 @@ public class RuleNameController {
     {
         RuleName ruleName = ruleNameService.findById(id);
         model.addAttribute("ruleName", ruleName);
+        log.info("The selected ruleName was find and access to the page for update ruleName was done");
         return "ruleName/update";
     }
 
@@ -71,11 +76,12 @@ public class RuleNameController {
         if (!result.hasErrors())
         {
             ruleNameService.update(ruleName);
+            log.info("The new ruleName was validated and updated");
             return "redirect:/poseidon/ruleName/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "ruleName/update";
         }
     }
@@ -84,6 +90,7 @@ public class RuleNameController {
     public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
 
         ruleNameService.deleteById(id);
+        log.info("The selected ruleName was deleted");
 
         return "redirect:/ruleName/list";
     }

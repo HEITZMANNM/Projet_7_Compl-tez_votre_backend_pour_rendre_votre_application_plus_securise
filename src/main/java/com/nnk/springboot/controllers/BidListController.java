@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.service.BidListService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/poseidon")
 public class BidListController {
@@ -20,15 +22,18 @@ public class BidListController {
     @Autowired
     private BidListService bidListService;
 
-    private static final Logger logger = LogManager.getLogger("BidListController");
+
 
     @RequestMapping("/bidList/list")
     public String home(Model model)
     {
+
         List<BidList> listOfAllBids = bidListService.getAllBids();
         model.addAttribute("listOfAllBids", listOfAllBids);
 
+        log.info("Acces to page list of bid was done");
         return "bidList/list";
+
     }
 
 
@@ -36,6 +41,9 @@ public class BidListController {
     public String addBidForm(Model model) {
         BidList bid = new BidList();
         model.addAttribute("bidList", bid);
+
+        log.info("Acces to page to add new bid was done");
+
         return "bidList/add";
     }
 
@@ -45,11 +53,14 @@ public class BidListController {
         if (!result.hasErrors())
         {
             bidListService.saveBid(bid);
+
+            log.info("The new bid was validated and saved");
+
             return "redirect:/poseidon/bidList/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "bidList/add";
         }
     }
@@ -62,6 +73,8 @@ public class BidListController {
         BidList bid = bidListService.getBidById(id);
         model.addAttribute("bidList", bid);
 
+        log.info("The selected bid was find and access to the page for update bid was done");
+
         return "bidList/update";
     }
 
@@ -73,11 +86,12 @@ public class BidListController {
         if (!result.hasErrors())
         {
             bidListService.update(bidList);
+            log.info("The new bid was validated and updated");
             return "redirect:/poseidon/bidList/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "bidList/update";
         }
     }
@@ -86,6 +100,8 @@ public class BidListController {
     public String deleteBid(@PathVariable("id") int id) {
 
         bidListService.deleteById(id);
+
+        log.info("The selected bid was deleted");
 
         return "redirect:/poseidon/bidList/list";
     }

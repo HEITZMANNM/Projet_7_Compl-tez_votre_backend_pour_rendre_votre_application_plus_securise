@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@DynamicUpdate
 @Table(name = "BidList")
 public class BidList {
 

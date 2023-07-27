@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.service.CurvePointService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/poseidon")
 public class CurveController {
 
-    private static final Logger logger = LogManager.getLogger("CurvePointController");
     @Autowired
     private CurvePointService curvePointService;
 
@@ -27,6 +28,8 @@ public class CurveController {
     {
         List<CurvePoint> listOfAllCurvePoints = curvePointService.getAllCurvePoints();
         model.addAttribute("listOfAllCurvePoints", listOfAllCurvePoints);
+
+        log.info("Access to page list of curvepoint was done");
 
         return "curvePoint/list";
     }
@@ -37,6 +40,8 @@ public class CurveController {
         CurvePoint curvePoint = new CurvePoint();
         model.addAttribute("curvePoint", curvePoint);
 
+        log.info("Acces to page to add new curve point was done");
+
         return "curvePoint/add";
     }
 
@@ -46,11 +51,12 @@ public class CurveController {
         if (!result.hasErrors())
         {
             curvePointService.saveCurvePoint(curvePoint);
+            log.info("The new curvePoint was validated and saved");
             return "redirect:/poseidon/curvePoint/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "curvePoint/add";
         }
     }
@@ -60,6 +66,8 @@ public class CurveController {
 
         CurvePoint curvePoint = curvePointService.getCurvePointById(id);
         model.addAttribute("curvePoint", curvePoint);
+
+        log.info("The selected curvePoint was find and access to the page for update curvePoint was done");
 
         return "curvePoint/update";
     }
@@ -71,11 +79,12 @@ public class CurveController {
         if (!result.hasErrors())
         {
             curvePointService.update(curvePoint);
+            log.info("The new curvePoint was validated and updated");
             return "redirect:/poseidon/curvePoint/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "curvePoint/update";
         }
     }
@@ -85,6 +94,7 @@ public class CurveController {
     public String deleteBid(@PathVariable("id") int id) {
 
         curvePointService.deleteById(id);
+        log.info("The selected curvePoint was deleted");
 
         return "redirect:/poseidon/curvePoint/list";
     }

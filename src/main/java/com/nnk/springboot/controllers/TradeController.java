@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.service.TradeService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/poseidon")
 public class TradeController {
 
-    private static final Logger logger = LogManager.getLogger("TradeController");
 
     @Autowired
     private TradeService tradeService;
@@ -28,6 +29,7 @@ public class TradeController {
     {
         List<Trade> listOfAllTrade = tradeService.findAll();
         model.addAttribute("listOfAllTrade", listOfAllTrade);
+        log.info("Access to page list of Trade was done");
 
         return "trade/list";
     }
@@ -37,6 +39,7 @@ public class TradeController {
 
         Trade trade = new Trade();
         model.addAttribute("trade", trade);
+        log.info("Acces to page to add new Trade was done");
 
         return "trade/add";
     }
@@ -47,11 +50,12 @@ public class TradeController {
         if (!result.hasErrors())
         {
             tradeService.save(trade);
+            log.info("The new Trade was validated and saved");
             return "redirect:/poseidon/trade/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "trade/add";
         }
     }
@@ -61,6 +65,7 @@ public class TradeController {
 
         Trade trade = tradeService.findById(id);
         model.addAttribute("trade", trade);
+        log.info("The selected Trade was find and access to the page for update Trade was done");
 
         return "trade/update";
     }
@@ -72,11 +77,12 @@ public class TradeController {
         if (!result.hasErrors())
         {
             tradeService.upDate(trade);
+            log.info("The Trade was validated and updated");
             return "redirect:/poseidon/trade/list";
         }
         else
         {
-            logger.error("errors = " + result.getAllErrors());
+            log.error("errors = " + result.getAllErrors());
             return "trade/update";
         }
     }
@@ -85,6 +91,7 @@ public class TradeController {
     public String deleteTrade(@PathVariable("id") Integer id) {
 
         tradeService.deleteById(id);
+        log.info("The selected Trade was deleted");
 
         return "redirect:/poseidon/trade/list";
     }

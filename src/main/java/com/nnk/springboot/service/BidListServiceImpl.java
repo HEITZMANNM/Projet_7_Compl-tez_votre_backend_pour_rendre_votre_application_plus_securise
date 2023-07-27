@@ -2,6 +2,7 @@ package com.nnk.springboot.service;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class BidListServiceImpl implements BidListService{
+
+
 
     @Autowired
     private BidListRepository bidListRepository;
@@ -25,7 +29,7 @@ public class BidListServiceImpl implements BidListService{
         try {
             listOfAllBids = bidListRepository.findAll();
 
-            logger.debug("The Bids were find");
+            log.info("The Bids were find");
         }
         catch(Exception ex){
             logger.error("Error fetching the list of bids", ex);
@@ -40,6 +44,7 @@ public class BidListServiceImpl implements BidListService{
         try {
             bidListRepository.save(bideToSaved);
             logger.debug("The bid was saved");
+
         }
         catch(Exception ex){
             logger.error("Error to save the bid", ex);
@@ -54,6 +59,7 @@ public class BidListServiceImpl implements BidListService{
         try {
             bid = bidListRepository.findById(id);
             logger.debug("The bid was find");
+
         }
         catch(Exception ex){
             logger.error("Error fetching the bid", ex);
